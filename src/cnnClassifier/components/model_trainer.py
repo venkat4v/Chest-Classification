@@ -5,6 +5,7 @@ import tensorflow as tf
 import time
 from cnnClassifier.entity.config_entity import TrainingConfig
 from pathlib import Path
+import shutil
 
 
 
@@ -69,6 +70,20 @@ class Training:
         model.save(path)
 
 
+    @staticmethod
+    def copy_model(source_path, destination_path):
+        """
+        Copy a model file from the source path to the destination path.
+
+        Args:
+            source_path (str): The path to the source model file.
+            destination_path (str): The path to the destination folder.
+        """
+        # Copy the model file from source to destination
+        shutil.copy2(source_path, destination_path)
+        print("Model copied successfully!")
+
+
 
     
     def train(self):
@@ -87,3 +102,6 @@ class Training:
             path=self.config.trained_model_path,
             model=self.model
         )
+
+        self.copy_model(source_path=self.config.trained_model_path 
+                         , destination_path = self.config.final_model_path)
